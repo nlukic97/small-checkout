@@ -1,7 +1,9 @@
 <?php
         $final = 0;
-        $order = [];
+//        $order = [];
         $index = 0;
+
+        //cheese pizza, quantity, price and extras
     if(isset($_POST['cheeseNumber']) && $_POST['cheeseNumber'] > 0 ){
         $order[$index] = [
             'order'=>'',
@@ -31,6 +33,7 @@
         $index++;
     }
 
+    //peperoni pizza, quantity, price and extras
     if(isset($_POST['peperoniNumber']) && $_POST['peperoniNumber'] > 0){
         $order[$index] = [
             'order'=>'',
@@ -59,6 +62,7 @@
         $index++;
     }
 
+    //vegeteriana pizza, quantity, price and extras
     if(isset($_POST['vegeterianaNumber']) && $_POST['vegeterianaNumber'] > 0){
         $order[$index] = [
             'order'=>'',
@@ -86,6 +90,17 @@
         $order[$index]['price']= "$ ".$price;
     }
 
+    // Delivery information
+    if($_POST['name'] !='' && $_POST['address'] !='' && $_POST['phone'] !=''){
+        $customerInfo=[
+            'name'=>$_POST['name'],
+            'address'=>$_POST['address'],
+            'phone'=>$_POST['phone'],
+        ];
+    } else {
+        $customerInfo = null;
+    }
+
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -97,36 +112,54 @@
     <style>
         tr, th, td {
             border:1px solid #333333;
-            /*border-collapse: collapse;*/
             padding:10px;
         }
     </style>
 </head>
 <body>
-<table>
-    <tr>
-        <th>Ordered</th>
-        <th>Extras</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
     <?php
+    if(isset($order)){
+        echo "<h2>Your order</h2>";
+        echo "<Table><tr><th>Ordered</th><th>Extras</th><th>Quantity</th><th>Price</th></tr>";
         for ($i = 0; $i < count($order); $i++){
-          echo "<tr>";
-              foreach ($order[$i] as $item){
-                  echo '<td>';
-                        echo $item;
-                  echo '</td>';
-              };
-          echo "</tr>";
+            echo "<tr>";
+            foreach ($order[$i] as $item){
+                echo '<td>';
+                echo $item;
+                echo '</td>';
+            };
+            echo "</tr>";
         }
         if($final > 0){
             echo '<tr>';
-                echo "<td></td><td></td><td>TOTAL</td><td>$ $final</td>";
+            echo "<td></td><td></td><td>TOTAL</td><td>$ $final</td>";
             echo '</tr>';
         }
+        echo '</table>';
+    } else {
+        echo "<h2>You have not ordered anything</h2>";
+    }
+
     ?>
-</table>
+
+<?php
+
+    if($customerInfo != null){
+        echo '<h2>Customer info</h2>';
+        echo '<table>';
+        echo '<tr><th>Name</th><th>Address</th><th>Phone</th></tr>';
+        echo '<tr>';
+            foreach ($customerInfo as $entry){
+            echo "<td>$entry</td>";
+            }
+        echo '</tr>';
+        echo '</table>';
+    } else {
+        echo '<h2>Please enter the delivery information</h2>';
+        echo '<a href="index.php">back</a>'; //Ne umem da se forma ne resetuje
+    }
+?>
+
 
 </body>
 </html>
