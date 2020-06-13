@@ -114,12 +114,19 @@
             border:1px solid #333333;
             padding:10px;
         }
+        body {
+            text-align: center;
+        }
+
+        table {
+            margin:0 auto;
+        }
     </style>
 </head>
 <body>
     <?php
     if(isset($order)){
-        echo "<h2>Your order</h2>";
+        echo "<h2>Your order has been submitted !</h2>";
         echo "<Table><tr><th>Ordered</th><th>Extras</th><th>Quantity</th><th>Price</th></tr>";
         for ($i = 0; $i < count($order); $i++){
             echo "<tr>";
